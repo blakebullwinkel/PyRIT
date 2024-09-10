@@ -51,10 +51,10 @@ class OpenAIChatInterface(PromptChatTarget):
         try:
             resp_text = await self._complete_chat_async(
                 messages=messages,
-                top_p=self._top_p,
-                temperature=self._temperature,
-                frequency_penalty=self._frequency_penalty,
-                presence_penalty=self._presence_penalty,
+                # top_p=self._top_p,
+                # temperature=self._temperature,
+                # frequency_penalty=self._frequency_penalty,
+                # presence_penalty=self._presence_penalty,
             )
 
             logger.info(f'Received the following response from the prompt target "{resp_text}"')
@@ -81,11 +81,11 @@ class OpenAIChatInterface(PromptChatTarget):
     async def _complete_chat_async(
         self,
         messages: list[ChatMessage],
-        max_tokens: int = 1024,
-        temperature: float = 1.0,
-        top_p: int = 1,
-        frequency_penalty: float = 0.5,
-        presence_penalty: float = 0.5,
+        # max_tokens: int = 1024,
+        # temperature: float = 1.0,
+        # top_p: int = 1,
+        # frequency_penalty: float = 0.5,
+        # presence_penalty: float = 0.5,
     ) -> str:
         """
         Completes asynchronous chat request.
@@ -111,13 +111,13 @@ class OpenAIChatInterface(PromptChatTarget):
 
         response: ChatCompletion = await self._async_client.chat.completions.create(
             model=self._deployment_name,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            top_p=top_p,
-            frequency_penalty=frequency_penalty,
-            presence_penalty=presence_penalty,
-            n=1,
-            stream=False,
+            # max_tokens=max_tokens,
+            # temperature=temperature,
+            # top_p=top_p,
+            # frequency_penalty=frequency_penalty,
+            # presence_penalty=presence_penalty,
+            # n=1,
+            # stream=False,
             messages=[{"role": msg.role, "content": msg.content} for msg in messages],  # type: ignore
         )
         finish_reason = response.choices[0].finish_reason
@@ -258,11 +258,11 @@ class OpenAIChatTarget(OpenAIChatInterface):
         endpoint: str = None,
         api_key: str = None,
         memory: MemoryInterface = None,
-        max_tokens: int = 1024,
-        temperature: float = 1.0,
-        top_p: int = 1,
-        frequency_penalty: float = 0.5,
-        presence_penalty: float = 0.5,
+        # max_tokens: int = 1024,
+        # temperature: float = 1.0,
+        # top_p: int = 1,
+        # frequency_penalty: float = 0.5,
+        # presence_penalty: float = 0.5,
         headers: Optional[dict[str, str]] = None,
         max_requests_per_minute: Optional[int] = None,
     ) -> None:
@@ -294,11 +294,11 @@ class OpenAIChatTarget(OpenAIChatInterface):
         """
         PromptChatTarget.__init__(self, memory=memory, max_requests_per_minute=max_requests_per_minute)
 
-        self._max_tokens = max_tokens
-        self._temperature = temperature
-        self._top_p = top_p
-        self._frequency_penalty = frequency_penalty
-        self._presence_penalty = presence_penalty
+        # self._max_tokens = max_tokens
+        # self._temperature = temperature
+        # self._top_p = top_p
+        # self._frequency_penalty = frequency_penalty
+        # self._presence_penalty = presence_penalty
 
         self._deployment_name = default_values.get_required_value(
             env_var_name=self.DEPLOYMENT_ENVIRONMENT_VARIABLE, passed_value=deployment_name
